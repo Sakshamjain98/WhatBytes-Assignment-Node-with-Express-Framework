@@ -2,24 +2,51 @@
   "name": "healthcare-backend",
   "version": "1.0.0",
   "description": "Healthcare backend: JWT auth, patients, doctors and patient-doctor mappings (Express + PostgreSQL)",
-  "main": "src/server.js",
+  "main": "dist/server.js",
   "private": true,
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch --env-file-if-exists=.env src/server.js",
-    "test": "node --test test/*.test.js"
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/server.js",
+    "dev": "tsx watch --env-file-if-exists=.env src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "tsx --test \"src/**/*.spec.ts\"",
+    "test:e2e": "tsx --test test/*.e2e.ts",
+    "db:migrate": "tsx --env-file-if-exists=.env src/database/migrate.ts"
   },
   "engines": {
     "node": ">=22"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
     "express": "^5.3.0",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.23.1",
     "pg-hstore": "^2.3.4",
+    "pino": "^10.4.0",
+    "pino-http": "^11.0.0",
     "sequelize": "^6.37.8",
     "swagger-ui-express": "^5.0.1",
+    "umzug": "^3.8.3",
     "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^22.20.5",
+    "@types/swagger-ui-express": "^4.1.8",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.9.10",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9",
+    "typescript-eslint": "^8.72.0"
   }
 }

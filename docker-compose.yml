@@ -8,7 +8,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
       interval: 3s
       timeout: 3s
       retries: 20
@@ -17,12 +17,18 @@ services:
   api:
     build: .
     ports:
-      - "${PORT:-3000}:3000"
+      - '${PORT:-3000}:3000'
     environment:
+      NODE_ENV: production
+      LOG_LEVEL: ${LOG_LEVEL:-info}
       DATABASE_URL: postgres://${POSTGRES_USER:-healthcare}:${POSTGRES_PASSWORD:-healthcare}@db:5432/${POSTGRES_DB:-healthcare}
-      # Defaults let `docker compose up` work out of the box; override in .env for any real deployment.
-      JWT_SECRET: ${JWT_SECRET:-dev-only-change-me}
-      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1d}
+      # Defaults let `docker compose up` work out of the box; set real secrets in .env for any deployment.
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-dev-only-access-secret-change-me}
+      JWT_ACCESS_EXPIRES_IN: ${JWT_ACCESS_EXPIRES_IN:-15m}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-dev-only-refresh-secret-change-me}
+      JWT_REFRESH_EXPIRES_IN: ${JWT_REFRESH_EXPIRES_IN:-7d}
+      CORS_ORIGIN: ${CORS_ORIGIN:-*}
+      AUTH_RATE_LIMIT_MAX: ${AUTH_RATE_LIMIT_MAX:-20}
     depends_on:
       db:
         condition: service_healthy

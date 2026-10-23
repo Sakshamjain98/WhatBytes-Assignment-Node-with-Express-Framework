@@ -1,0 +1,25 @@
+{
+  "name": "healthcare-backend",
+  "version": "1.0.0",
+  "description": "Healthcare backend: JWT auth, patients, doctors and patient-doctor mappings (Express + PostgreSQL)",
+  "main": "src/server.js",
+  "private": true,
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch --env-file-if-exists=.env src/server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "express": "^5.3.0",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.8",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^3.25.76"
+  }
+}
